@@ -1,5 +1,5 @@
 # Executable name
-NAME = cpp05_ex00
+NAME = convert
 
 # Compiler and flags
 CC = c++
@@ -17,8 +17,8 @@ HDR_DIR = incs/
 OBJ_DIR = objs/
 
 # Source, object, and header files
-SRC_FILES = main.cpp Bureaucrat.cpp
-HDR_FILES = Bureaucrat.hpp
+SRC_FILES = main.cpp ScalarConverter.cpp
+HDR_FILES = ScalarConverter.hpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
 
 # Paths for source, object, and header files
@@ -61,3 +61,4 @@ re: fclean all
 
 # Declare phony targets (targets that do not represent files)
 .PHONY: all clean fclean re
+

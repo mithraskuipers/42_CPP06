@@ -1,29 +1,29 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   ScalarConverter.hpp                                :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/06/18 19:41:46 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/06/18 19:50:33 by mikuiper      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef SCALARCONVERTER
-# define SCALARCONVERTER
+#ifndef SCALARCONVERTER_HPP
+#define SCALARCONVERTER_HPP
 
 #include <iostream>
+#include <exception>
+#include <cstdlib> // For atoi and atof
+#include <string>
+#include <iomanip> // For std::fixed and std::setprecision
+
 
 class ScalarConverter
 {
-	public:
-		ScalarConverter();
-		ScalarConverter(ScalarConverter const &other);
-		~ScalarConverter();
+public:
+    ScalarConverter();
+    ScalarConverter(const ScalarConverter& other);
+    ~ScalarConverter();
+    ScalarConverter& operator=(const ScalarConverter& other);
+    static void convert(const std::string& input);
 
-	private:
+private:
+    static void convertChar(const std::string &input);
+    static void convertInt(const std::string &input);
+    static void convertFloat(const std::string &input);
+    static void convertDouble(const std::string &input);
+
+    static bool isDisplayable(char c);
 };
-	
 
 #endif

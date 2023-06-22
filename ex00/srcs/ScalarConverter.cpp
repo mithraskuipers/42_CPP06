@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/06/18 19:42:44 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/06/22 15:13:44 by mikuiper      ########   odam.nl         */
+/*   Created: 2023/06/22 15:49:34 by mikuiper      #+#    #+#                 */
+/*   Updated: 2023/06/22 15:56:27 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,194 +18,70 @@
 
 ScalarConverter::ScalarConverter()
 {
-	// No logic implemented as the class does not have any member variables.	
-}
-
-ScalarConverter::ScalarConverter(const ScalarConverter &other)
-{
-	// No logic implemented as the class does not have any member variables.
-	(void)other;
+	std::cout << "ScalarConverter default constructor called" << std::endl;
 }
 
 ScalarConverter::~ScalarConverter()
 {
-	// No logic implemented as the class does not have any member variables.
-}
-
-ScalarConverter& ScalarConverter::operator=(const ScalarConverter &other)
-{
-	// This will always return *this. No matter what happens.
-	// What is determined here is what is being put inside this before it is
-	// returned.
-	if (this != &other)
-	{
-		// Logic here...
-		return (*this);
-	}
-	return (*this);
+	std::cout << "ScalarConverter destructor called" << std::endl;
 }
 
 /*
-** Private member functions
+** Orthodox canonical form
 */
 
-// Remember: No need to specify static here
-// Remember: Use of references instead of pointers to not have to check of NULL
-
-#include "ScalarConverter.hpp"
-#include <cstdlib> // For atoi and atof
-
-void ScalarConverter::convert(const std::string &input)
+void ScalarConverter::convert(std::string input)
 {
-	convertChar(input);
-	convertInt(input);
-	convertFloat(input);
-	convertDouble(input);
-}
-
-bool isInteger(const std::string &str)
-{
-	if (str.empty())
-	{
-		return false;
-	}
-	for (size_t i = 0; i < str.length(); ++i)
-	{
-		if (i == 0 && (str[i] == '-' || str[i] == '+'))
-		{
-			continue;
-		}
-		if (!std::isdigit(str[i]))
-		{
-			return false;
-		}
-	}
-	return true;
-}
-
-void ScalarConverter::convertChar(const std::string &input)
-{
+	// Convert to char
 	std::cout << "char: ";
-
-	// Check if the input is a valid integer
-	if (isInteger(input))
+	try
 	{
-		int value = std::atoi(input.c_str()); // Convert input to integer
-		char c = static_cast<char>(value);
-		if (isDisplayable(c))
-			std::cout << "'" << c << "'" << std::endl;
-		else
+		int intValue = atoi(input.c_str());
+		char c = static_cast<char>(intValue);
+		if (c < 32 || c > 126)
+		{
 			std::cout << "Non displayable" << std::endl;
-	}
-	else
-	{
-		// Create an input string stream from the given input
-		std::istringstream iss(input);
-
-		// Declare a variable to store the floating-point value
-		float floatValue;
-
-		// Attempt to extract a float value from the input stream
-		if (iss >> floatValue)
-		{
-			// Convert the float value to an integer
-			int intValue = static_cast<int>(floatValue);
-
-			// Convert the integer value to a character
-			char c = static_cast<char>(intValue);
-
-			// Check if the character is displayable
-			if (isDisplayable(c))
-			{
-				// Display the character surrounded by single quotes
-				std::cout << "'" << c << "'" << std::endl;
-			}
-			else
-			{
-				// The character is not displayable
-				std::cout << "Non displayable" << std::endl;
-			}
 		}
 		else
 		{
-			// The input cannot be converted to a float value
-			std::cout << "impossible" << std::endl;
+			std::cout << "'" << c << "'" << std::endl;
 		}
 	}
-}
-
-void ScalarConverter::convertInt(const std::string &input)
-{
+	catch(const std::exception& e)
+	{
+		std::cout << "impossible" << std::endl;
+	}
+	// Convert to int
 	std::cout << "int: ";
-
-	// Check if the input is a valid integer
-	if (isInteger(input))
+	try
 	{
-		try
-		{
-			int i = std::atoi(input.c_str()); // Convert input to integer
-			std::cout << i << std::endl; // Print the integer value
-		}
-		catch(const std::exception& error)
-		{
-			std::cout << "impossible" << std::endl; // Conversion failed, print "impossible"
-		}
+		int i = atoi(input.c_str());
+		std::cout << i << std::endl;
 	}
-	else
+	catch(const std::exception& e)
 	{
-		try
-		{
-			float f = std::atof(input.c_str()); // Convert input to float
-			int i = static_cast<int>(f); // Truncate float to integer
-			if (f == i)
-				std::cout << i << std::endl; // If float is an exact integer, print the integer value
-			else
-				std::cout << "impossible" << std::endl; // Float is not an exact integer, print "impossible"
-		}
-		catch(const std::exception& error)
-		{
-			std::cout << "impossible" << std::endl; // Conversion failed, print "impossible"
-		}
+		std::cout << "impossible" << std::endl;
 	}
-}
-
-void ScalarConverter::convertFloat(const std::string &input)
-{
+	// Convert to float
 	std::cout << "float: ";
 	try
 	{
-		// Convert the input string to a float value
-		float f = std::atof(input.c_str());
-
-		// With fixed you specify that floats are displayed in fixed-point notation.
-		// With setprecision you specifiy that x digits are shown after the decimal point.
-		std::cout << std::fixed << std::setprecision(1); 
-
-		// Output the float value with the desired format
-		std::cout << f << "f" << std::endl;
+		float f = static_cast<float>(atof(input.c_str()));
+		std::printf("%.1ff\n", f);
 	}
-	catch (const std::exception& error)
+	catch(const std::exception& e)
 	{
-		std::cout << "nanf" << std::endl;
+		std::cout << "impossible" << std::endl;
 	}
-}
-
-// convertDouble is practically identical to convertFloat
-void ScalarConverter::convertDouble(const std::string &input)
-{
+	// Convert to double
 	std::cout << "double: ";
 	try
 	{
-		double d = std::atof(input.c_str());
-		std::cout << d << std::endl;
+		double d = atof(input.c_str());
+		std::printf("%.1f\n", d);
 	}
-	catch (const std::exception& error)
+	catch(const std::exception& e)
 	{
-		std::cout << "nan" << std::endl;
+		std::cout << "impossible" << std::endl;
 	}
-}
-
-bool ScalarConverter::isDisplayable(char c)
-{
-	return (c >= 32 && c <= 126);
 }

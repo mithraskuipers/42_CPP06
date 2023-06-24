@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/23 20:23:26 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/06/25 00:11:26 by mikuiper      ########   odam.nl         */
+/*   Updated: 2023/06/25 00:31:49 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 #include <cstdlib> // for rand
 #include <ctime>
-#include <typeinfo>
 
 Base *generate(void)
 {
@@ -69,26 +68,34 @@ void identify(Base *p)
 
 void identify(Base& p)
 {
-	if (typeid(p) == typeid(A)) // Look at typeid of class A
+	try
 	{
-		std::cout << "Identified ref: A" << std::endl;
-		return ;
+		A& a = dynamic_cast<A&>(p);
+		std::cout << "Identified pointer as type: A" << std::endl;
+		(void)a; // Silence unused variable warning
+		return;
 	}
-	else if (typeid(p) == typeid(B)) // Look at typeid of class B
+	catch (const std::bad_cast& e) {}
+
+	try
 	{
-		std::cout << "Identified ref: B" << std::endl;
-		return ;
+		B& b = dynamic_cast<B&>(p);
+		std::cout << "Identified pointer as type: B" << std::endl;
+		(void)b; // Silence unused variable warning
+		return;
 	}
-	else if (typeid(p) == typeid(C)) // Look at typeid of class C
+	catch (const std::bad_cast& e) {}
+
+	try
 	{
-		std::cout << "Identified ref: C" << std::endl;
-		return ;
+		C& c = dynamic_cast<C&>(p);
+		std::cout << "Identified pointer as type: C" << std::endl;
+		(void)c; // Silence unused variable warning
+		return;
 	}
-	else
-	{
-		std::cout << "Unknown type" << std::endl;
-		return ;
-	}
+	catch (const std::bad_cast& e) {}
+
+	std::cout << "Unable to identify pointer type." << std::endl;
 }
 
 int main()

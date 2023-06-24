@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.cpp                                           :+:    :+:            */
+/*   Base.hpp                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/06/23 20:23:30 by mikuiper      #+#    #+#                 */
-/*   Updated: 2023/06/23 20:23:30 by mikuiper      ########   odam.nl         */
+/*   Created: 2023/06/23 20:30:34 by mikuiper      #+#    #+#                 */
+/*   Updated: 2023/06/24 18:31:00 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../incs/ScalarConverter.hpp"
+#ifndef BASE_HPP
+# define BASE_HPP
 
-int main(int argc, char **argv)
+#include <iostream>
+
+class Base
 {
-		ScalarConverter test1;
+	public:
+		virtual ~Base();
+};
 
-		if (argc != 2)
-		{
-				std::cout << "Error: Wrong number of arguments" << std::endl;
-				return 1;
-		}
-		test1.convert(argv[1]);
-	return 0;
-}
+#endif
